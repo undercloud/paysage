@@ -1,0 +1,28 @@
+{
+    "name": "paysage",
+    "license": "MIT",
+    "version": "1.0.0",
+    "description": "Vue Reactive Components",
+    "main": "src/paysage.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/undercloud/paysage.git"
+    },
+    "keywords": [
+        "paysage",
+        "vue",
+        "vuejs",
+        "vuex",
+        "react",
+        "redux",
+        "reactive",
+        "web components"
+    ],
+    "bugs": {
+        "url": "https://github.com/undercloud/paysage/issues"
+    },
+    "homepage": "https://github.com/undercloud/paysage",
+    "dependencies": {
+        "vue": ">=2.5.8"
+    }
+}
