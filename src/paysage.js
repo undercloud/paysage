@@ -146,6 +146,12 @@
                 ? source.constructor
                 : function () {
                     source = new source.constructor();
+
+                    var fn = function(key){
+                        this[key] = source[key];
+                    };
+
+                    Object.keys(source).forEach(fn,this)
                 }
             );
 
