@@ -158,14 +158,12 @@
                )
             );
 
-            if (true !== map.functional) {
-                if (typeof map.draw == "string" || map.draw instanceof String) {
-                    map.template = map.draw;
-                } else if (0 === map.methods.draw.length) {
-                    map.template = map.methods.draw();
-                } else {
-                    map.render = map.methods.draw;
-                }
+            if (typeof map.draw == "string" || map.draw instanceof String) {
+                map.template = map.draw;
+            } else if (0 === map.methods.draw.length) {
+                map.template = map.methods.draw();
+            } else {
+                map.render = map.methods.draw;
             }
 
             return map;
