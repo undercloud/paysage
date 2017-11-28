@@ -19,6 +19,7 @@
             "deactivated",
             "beforeDestroy",
             "destroyed",
+            "errorCaptured",
             //options
             "props",
             "propsData",
@@ -52,7 +53,7 @@
                             get: descriptor.get,
                             set: descriptor.set
                         };
-                    } else if (typeof prototype[x] === "function") {
+                    } else if (typeof prototype[x] === "function" || x === "draw") {
                         map.methods[x] = prototype[x];
                     }
                 }
@@ -62,6 +63,8 @@
             for (var x in prototype) {
                 if (prototype.hasOwnProperty(x)) {
                     if (!(this.whitelist.includes(x))) {
+                        if (x === "draw") continue;
+
                         var descriptor = Object.getOwnPropertyDescriptor(prototype, x);
                         if (typeof prototype[x] != "function" && !descriptor.get && !descriptor.set) {
                             map[x] = prototype[x];
@@ -164,8 +167,8 @@
                )
             );
 
-            if (typeof map.draw == "string" || map.draw instanceof String) {
-                map.template = map.draw;
+            if (typeof map.methods.draw == "string" || map.methods.draw instanceof String) {
+                map.template = map.methods.draw;
             } else if (0 === map.methods.draw.length) {
                 map.template = map.methods.draw();
             } else {
