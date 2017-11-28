@@ -1,7 +1,24 @@
 # paysage
 Vuejs Reactive Components
 
-coming soon...
+
+```JS
+class HelloWorld extends Paysage.Component
+{
+    get props() {
+        return ['to'];
+    }
+
+    draw() {
+        return (
+            `<div>Hello {{ to }}</div>`
+        )
+    }
+}
+
+Paysage.register('HelloWorld', HelloWorld)
+Paysage.mount('#app','<HelloWorld to="World" />')
+```
 
 ## draw and JSX
 https://github.com/vuejs/babel-plugin-transform-vue-jsx
