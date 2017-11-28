@@ -27,7 +27,7 @@ draw(h) {
 }
 ```
 
-```
+```JSX
 // h must be in scope
 draw(h) {
     return (
