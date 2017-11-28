@@ -135,7 +135,7 @@
 
             core.assign(map, source);
 
-            if (typeof map.data == "undefined") {
+            if (true !== map.functional && typeof map.data == "undefined") {
                 map.data = core.createSerializer(source, statics);
             }
 
@@ -159,7 +159,9 @@
             );
 
             if (true !== map.functional) {
-                if (0 === map.methods.draw.length) {
+                if (typeof map.draw == "string" || map.draw instanceof String) {
+                    map.template = map.draw;
+                } else if (0 === map.methods.draw.length) {
                     map.template = map.methods.draw();
                 } else {
                     map.render = map.methods.draw;
