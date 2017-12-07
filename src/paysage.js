@@ -97,7 +97,7 @@
             if (root) {
                 root.appendChild(
                     (new DOMParser())
-                        .parseFromString(component, 'application/xml')
+                        .parseFromString(component, "application/xml")
                         .documentElement
                 );
 
@@ -184,7 +184,7 @@
 
             options = options || {};
 
-            if (typeof component == 'string') {
+            if (typeof component == "string") {
                 var node = core.bindNode(selector, component);
                 if (node) {
                     return new Vue(Object.assign(
