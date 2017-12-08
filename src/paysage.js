@@ -112,13 +112,14 @@
                 return node.lastElementChild;
             });
         },
-        createSerializer: function(source, statics) {
+        createSerializer: function(source, statics, mixin) {
             return function () {
+                mixin = mixin || {}
                 var data = core.extractVars(source, statics);
                 data = JSON.stringify(data);
                 data = JSON.parse(data);
-
-                return data;
+                console.log('ask',data)
+                return Object.assign(mixin, data);
             };
         }
     };
@@ -146,8 +147,8 @@
 
             core.assign(map, source);
 
-            if (true !== map.functional && typeof map.data == "undefined") {
-                map.data = core.createSerializer(source, statics);
+            if (true !== map.functional) {
+                map.data = core.createSerializer(source, statics, map.data);
             }
 
             source.constructor = source.constructor.bind(source);
