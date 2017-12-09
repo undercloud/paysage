@@ -2,7 +2,12 @@
 Vuejs Reactive Components
 
 
+## Installation
+`npm install paysage`
+
 ```JS
+import Paysage from './paysage'
+
 class HelloWorld extends Paysage.Component
 {
     static props = ['to'];

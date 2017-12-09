@@ -3,6 +3,7 @@
 
     var core = {
         whitelist: [
+            'components',
             // dom
             "el",
             "template",
