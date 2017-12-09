@@ -89,29 +89,38 @@
             };
         },
         bindNode: function (selector, component) {
-            var root = (
-                selector instanceof HTMLElement
-                ? selector
-                : document.querySelector(selector)
-            );
+            try {
+                var root = (
+                    selector instanceof NodeList
+                    ? selector
+                    : (
+                        selector instanceof HTMLElement
+                        ? [selector]
+                        : document.querySelectorAll(selector)
+                    )
+                );
+            } catch (e) {
+                
+            }
 
-            if (root) {
-                root.appendChild(
+            return root.map(function(node){
+                node.appendChild(
                     (new DOMParser())
                         .parseFromString(component, "application/xml")
                         .documentElement
                 );
 
-                return root.children[0];
-            }
+                return node.lastElementChild;
+            });
         },
-        createSerializer: function(source, statics) {
+        createSerializer: function(source, statics, mixin) {
             return function () {
+                mixin = mixin || {}
                 var data = core.extractVars(source, statics);
                 data = JSON.stringify(data);
                 data = JSON.parse(data);
-
-                return data;
+                console.log('ask',data)
+                return Object.assign(mixin, data);
             };
         }
     };
@@ -139,8 +148,8 @@
 
             core.assign(map, source);
 
-            if (true !== map.functional && typeof map.data == "undefined") {
-                map.data = core.createSerializer(source, statics);
+            if (true !== map.functional) {
+                map.data = core.createSerializer(source, statics, map.data);
             }
 
             source.constructor = source.constructor.bind(source);
@@ -180,26 +189,25 @@
         },
         mount: function (selector, component, options) {
             if (1 === arguments.length) {
-                return new Vue({el: selector});
+                return [new Vue({el: selector})];
             }
 
             options = options || {};
 
             if (typeof component == "string") {
-                var node = core.bindNode(selector, component);
-                if (node) {
+                return core.bindNode(selector, component).map(function(node){
                     return new Vue(Object.assign(
                         {el: node},
                         options
                     ));
-                }
+                });
             }
 
-            return new Vue(Object.assign(
+            return [new Vue(Object.assign(
                 {el: selector},
                 component || {},
                 options
-            ));
+            ))];
         },
         register: function (name, component, options) {
             var map = Object.assign(
