@@ -1,6 +1,8 @@
 # Paysage
 Vuejs Reactive Components
+
 ![Paysage logo](https://raw.githubusercontent.com/undercloud/paysage/master/logo.png)
+
 Paysage is a helper for quickly and easily creating web components based on Vuejs.
 
 ## Installation
