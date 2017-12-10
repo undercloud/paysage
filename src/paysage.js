@@ -3,9 +3,7 @@
 
     var core = {
         whitelist: [
-            'components',
             // dom
-            "el",
             "template",
             "render",
             "renderError",
@@ -32,7 +30,10 @@
             "functional",
             "model",
             "mixins",
-            "directives"
+            "components",
+            "directives",
+            "filter",
+            "inheritAttrs"
         ],
         assign: function (map, prototype, isPrototype) {
             var keys = (
@@ -89,38 +90,35 @@
             };
         },
         bindNode: function (selector, component) {
-            try {
-                var root = (
-                    selector instanceof NodeList
-                    ? selector
-                    : (
-                        selector instanceof HTMLElement
-                        ? [selector]
-                        : document.querySelectorAll(selector)
-                    )
-                );
-            } catch (e) {
-                
+            var root = null;
+            if (selector instanceof NodeList) {
+                root = selector;
+            } else if (selector instanceof HTMLElement) {
+                root = [selector];
+            } else {
+                root = document.querySelectorAll(selector);
             }
 
-            return root.map(function(node){
+            var nodes = [];
+            for (var index = 0; index < root.length; index++) {
+                var node = root[index];
                 node.appendChild(
                     (new DOMParser())
                         .parseFromString(component, "application/xml")
                         .documentElement
                 );
 
-                return node.lastElementChild;
-            });
+                nodes.push(node.lastElementChild);
+            }
+
+            return nodes;
         },
-        createSerializer: function(source, statics, mixin) {
+        createSerializer: function(dynamics, statics) {
             return function () {
-                mixin = mixin || {}
-                var data = core.extractVars(source, statics);
-                data = JSON.stringify(data);
-                data = JSON.parse(data);
-                console.log('ask',data)
-                return Object.assign(mixin, data);
+                var locals =  dynamics() || {};
+                var globals = statics() || {};
+
+                return Object.assign({}, globals, locals);
             };
         }
     };
@@ -140,42 +138,31 @@
             };
 
             var statics = {};
+            core.extractVars(source, statics);
             if (isClass) {
                 core.assign(map, source, true);
-                core.extractVars(source, statics);
                 source = source.prototype;
             }
 
             core.assign(map, source);
 
-            if (true !== map.functional) {
-                map.data = core.createSerializer(source, statics, map.data);
-            }
-
-            source.constructor = source.constructor.bind(source);
-
-            var resolveConstructor = (
-                !isClass
-                ? source.constructor
-                : function () {
-                    source = new source.constructor();
-
-                    var fn = function(key){
-                        this[key] = source[key];
-                    };
-
-                    Object.keys(source).forEach(fn,this)
-                }
-            );
+            var heap = null;
+            var resolveConstructor = function () {
+                heap = new source.constructor();
+            };
 
             map.beforeCreate = (
                 typeof map.beforeCreate == "undefined"
                 ? resolveConstructor
-                : core.compose(
-                    map.beforeCreate,
-                    resolveConstructor
-               )
+                : core.compose(map.beforeCreate, resolveConstructor)
             );
+
+            if (true !== map.functional) {
+                map.data = core.createSerializer(
+                    function() { return heap; },
+                    function() { return statics; }
+                );
+            }
 
             if (typeof map.methods.draw == "string" || map.methods.draw instanceof String) {
                 map.template = map.methods.draw;
@@ -195,7 +182,7 @@
             options = options || {};
 
             if (typeof component == "string") {
-                return core.bindNode(selector, component).map(function(node){
+                return core.bindNode(selector, component).map(function(node) {
                     return new Vue(Object.assign(
                         {el: node},
                         options
@@ -209,15 +196,23 @@
                 options
             ))];
         },
-        register: function (name, component, options) {
-            var map = Object.assign(
-                typeof component == "function"
-                ? this.createClass(component)
-                : component,
-                options || {}
-            );
+        register: function (component, name) {
+            if (typeof component === "function") {
+                if (arguments.length === 1) {
+                    name = String(component && component.name);
+                }
 
-            return Vue.component(name, map);
+                if (!(Object.getPrototypeOf(component) === Paysage.Component)) {
+                    throw new TypeError(name + ' must be instanceof Paysage.Component');
+                }
+            }
+
+            return Vue.component(
+                name,
+                typeof component === "function"
+                ? this.createClass(component)
+                : component
+            );
         }
     };
 

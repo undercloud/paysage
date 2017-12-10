@@ -3,26 +3,10 @@
 <head>
   <title></title>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.8/vue.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
   <script type="text/javascript" src="../src/paysage.js"></script>
 </head>
 <body>
   <div id="app"></div>
-  <script type="text/javascript">
-    var HelloWorld = Paysage.createClass({
-      props: ['to'],
-      constructor: function(){
-        this.time = Date.now();
-      },
-      draw: function () {
-        return (
-          '<div>Hello <b>{{ to }}</b>, current time {{ time }}</div>'
-        )
-      }
-
-    });
-
-    Paysage.register('HelloWorld', HelloWorld);
-    Paysage.mount('#app', '<HelloWorld to="World"/>');
-  </script>
 </body>
 </html>

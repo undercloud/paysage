@@ -1,10 +1,10 @@
 # paysage
 Vuejs Reactive Components
 
-
 ## Installation
 `npm install paysage`
 
+## Usage
 ```JS
 import Paysage from './paysage'
 
@@ -15,12 +15,12 @@ class HelloWorld extends Paysage.Component
     draw() {
         return (
             `<div>Hello {{ to }}</div>`
-        )
+        );
     }
 }
 
-Paysage.register('HelloWorld', HelloWorld)
-Paysage.mount('#app','<HelloWorld to="World" />')
+Paysage.register(HelloWorld, 'HelloWorld');
+Paysage.mount('#app','<HelloWorld to="World" />');
 ```
 
 ## Draw and JSX
@@ -33,28 +33,31 @@ class SomeComponent extends Paysage.Component
             `<div>
                 Hello World
             </div>`
-        )
+        );
     }
 }
 ```
+
 Or define static template:
 ```JS
 class SomeComponent extends Paysage.Component
 {    
-    static draw = '<div>Hello World</div>'
+    static draw = '<div>Hello World</div>';
 }
 ```
-Also you can build HTML with `createElement` function
+
+Also you can build HTML with `createElement` function:
 ```JS
 class SomeComponent extends Paysage.Component
 {
     draw(createElement) {
         return createElement(
             'div', 'Hello World'
-        )
+        );
     }
 }
 ```
+
 More about render function at https://vuejs.org/v2/guide/render-function.html
 
 JSX also support with https://github.com/vuejs/babel-plugin-transform-vue-jsx plugin
@@ -65,7 +68,7 @@ class SomeComponent extends Paysage.Component
     draw(h) {
         return (
             <div>Hello World</div>
-        )
+        );
     }
 
 ```
@@ -75,12 +78,18 @@ Properties can be defined by two way:
 ```JS
 class SomeComponent extends Paysage.Component
 {
-    // define static property
+    /* 
+        define static property,
+        common for all instances 
+    */
     static props = ['foo'];
 
     constructor() {
         super();
-        // define property on fly
+        /* 
+            define property on fly,
+            each instance has own variable copy
+        */
         this.bar = 'Bar';
     }
 
@@ -94,6 +103,7 @@ class SomeComponent extends Paysage.Component
     }
 }
 ```
+More about properties at https://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function
 
 ## Computed
 All getters and setters will be processed as computed properties:
@@ -105,9 +115,9 @@ class SomeComponent extends Paysage.Component
     }
 
     set fullName(newValue) {
-        var names = newValue.split(' ')
-        this.firstName = names[0]
-        this.lastName = names[names.length - 1]
+        var names = newValue.split(' ');
+        this.firstName = names[0];
+        this.lastName = names[names.length - 1];
     }
 }
 ```
@@ -148,30 +158,28 @@ class SomeComponent extends Paysage.Component
 More about hooks at https://vuejs.org/v2/guide/instance.html#Lifecycle-Diagram
 
 ## Register
-
+You must register component before use:
 ```JS
 /*
-name - component name
 component - component instance
-options - additional Vue options
+name - component name, default equal instance name
 */
-
-Paysage.register(name, component [, options])
+Paysage.register(component, name)
 ```
 
 ## Mount
-
+Mount component to DOM:
 ```JS
 /*
 selector - string or HTMLElement instance
-component - HTML markup
+component - HTML markup or component instance
 options - additional Vue options
 */
 Paysage.mount(selector [, component [, options]])
 ```
 
-## es5
-
+## ES5
+If you wanna use it without transpilling, use `createClass` helper:
 ```JS
 var HelloWorld = Paysage.createClass({
     constructor: function () {
@@ -179,10 +187,10 @@ var HelloWorld = Paysage.createClass({
     },
     draw: function() {
         return (
-            '<div>Hello {{ to }}</div'
+            '<div>Hello {{ to }}</div>'
         )
     }
 })
 
-Paysage.register('HelloWorld', HelloWorld);
+Paysage.register(HelloWorld, 'HelloWorld');
 ```
