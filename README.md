@@ -1,7 +1,7 @@
 # Paysage
 Vuejs Reactive Components
 <p align="center">
-    ![Paysage logo](https://raw.githubusercontent.com/undercloud/paysage/master/logo.png)
+    <img src="https://raw.githubusercontent.com/undercloud/paysage/master/logo.png" />
 </p>
 Paysage is a helper for quickly and easily creating web components based on Vuejs.
 
