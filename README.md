@@ -87,6 +87,7 @@ because they have special meanings in Vue:
 `functional`, `model`, `mixins`,
 `components`, `directives`, `filter`,
 `inheritAttrs`
+
 But if you define them, then they will work according to the built-in Vue logic.
 
 Properties can be defined by two way:
