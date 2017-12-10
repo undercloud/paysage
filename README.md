@@ -1,5 +1,7 @@
-# paysage
+# Paysage
 Vuejs Reactive Components
+
+Paysage is a helper for quickly and easily creating web components based on Vuejs.
 
 ## Installation
 `npm install paysage`
@@ -57,7 +59,6 @@ class SomeComponent extends Paysage.Component
     }
 }
 ```
-
 More about render function at https://vuejs.org/v2/guide/render-function.html
 
 JSX also support with https://github.com/vuejs/babel-plugin-transform-vue-jsx plugin
@@ -74,6 +75,17 @@ class SomeComponent extends Paysage.Component
 ```
 
 ## Properties
+
+You should not use the following names as properties or class methods, 
+because they have special meanings in Vue:
+`template`, `render`, `renderError`,
+`props`, `propsData`, `computed`,
+`watch`, `name`, `delimiters`,
+`functional`, `model`, `mixins`,
+`components`, `directives`, `filter`,
+`inheritAttrs`
+But if you define them, then they will work according to the built-in Vue logic.
+
 Properties can be defined by two way:
 ```JS
 class SomeComponent extends Paysage.Component
