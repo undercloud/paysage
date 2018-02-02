@@ -10,7 +10,7 @@ Paysage is a helper for quickly and easily creating web components based on Vuej
 `npm install paysage`
 
 ## Usage
-```JS
+```javascript
 import Paysage from './paysage'
 
 class HelloWorld extends Paysage.Component
@@ -30,7 +30,7 @@ Paysage.mount('#app','<HelloWorld to="World" />');
 
 ## Draw and JSX
 For creating HTML markup you must implement `draw` method:
-```JS
+```javascript
 class SomeComponent extends Paysage.Component
 {
     draw() {
@@ -44,7 +44,7 @@ class SomeComponent extends Paysage.Component
 ```
 
 Or define static template:
-```JS
+```javascript
 class SomeComponent extends Paysage.Component
 {    
     static draw = '<div>Hello World</div>';
@@ -52,7 +52,7 @@ class SomeComponent extends Paysage.Component
 ```
 
 Also you can build HTML with `createElement` function:
-```JS
+```javascript
 class SomeComponent extends Paysage.Component
 {
     draw(createElement) {
@@ -65,7 +65,7 @@ class SomeComponent extends Paysage.Component
 More about render function at https://vuejs.org/v2/guide/render-function.html
 
 JSX also support with https://github.com/vuejs/babel-plugin-transform-vue-jsx plugin
-```JSX
+```javascript
 class SomeComponent extends Paysage.Component
 {
     // h must be in scope
@@ -91,7 +91,7 @@ because they have special meanings in Vue:
 But if you define them, then they will work according to the built-in Vue logic.
 
 Properties can be defined by two way:
-```JS
+```javascript
 class SomeComponent extends Paysage.Component
 {
     /* 
@@ -123,7 +123,7 @@ More about properties at https://vuejs.org/v2/guide/components.html#data-Must-Be
 
 ## Computed
 All getters and setters will be processed as computed properties:
-```JS
+```javascript
 class SomeComponent extends Paysage.Component
 {
     get fullName() {
@@ -154,7 +154,7 @@ Next events you can use as Vue's lifecycle hooks
 * destroyed
 * errorCaptured
 
-```JS
+```javascript
 class SomeComponent extends Paysage.Component
 {
     created() {
@@ -175,7 +175,7 @@ More about hooks at https://vuejs.org/v2/guide/instance.html#Lifecycle-Diagram
 
 ## Register
 You must register component before use:
-```JS
+```javascript
 /*
 component - component instance
 name - component name, default equal instance name
@@ -185,7 +185,7 @@ Paysage.register(component, name)
 
 ## Mount
 Mount component to DOM:
-```JS
+```javascript
 /*
 selector - string or HTMLElement instance
 component - HTML markup or component instance
@@ -196,7 +196,7 @@ Paysage.mount(selector [, component [, options]])
 
 ## ES5
 If you wanna use it without transpilling, use `createClass` helper:
-```JS
+```javascript
 var HelloWorld = Paysage.createClass({
     constructor: function () {
         this.to = 'World';
