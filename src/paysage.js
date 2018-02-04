@@ -203,7 +203,7 @@
                 }
 
                 if (!(Object.getPrototypeOf(component) === Paysage.Component)) {
-                    throw new TypeError(name + ' must be instanceof Paysage.Component');
+                    throw new TypeError(name + " must be instanceof Paysage.Component");
                 }
             }
 
