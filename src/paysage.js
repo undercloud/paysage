@@ -102,11 +102,9 @@
             var nodes = [];
             for (var index = 0; index < root.length; index++) {
                 var node = root[index];
-                node.appendChild(
-                    (new DOMParser())
-                        .parseFromString(component, "application/xml")
-                        .documentElement
-                );
+                var div = document.createElement('div');
+                div.innerHTML = component;
+                node.appendChild(div.firstChild);
 
                 nodes.push(node.lastElementChild);
             }
