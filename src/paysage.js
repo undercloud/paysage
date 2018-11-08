@@ -68,7 +68,7 @@
                         if (x === "draw") continue;
 
                         var descriptor = Object.getOwnPropertyDescriptor(prototype, x);
-                        if (typeof prototype[x] != "function" && !descriptor.get && !descriptor.set) {
+                        if (!descriptor.get && !descriptor.set && typeof prototype[x] != "function") {
                             map[x] = prototype[x];
                         }
                     }
