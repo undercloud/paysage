@@ -144,9 +144,13 @@
 
             core.assign(map, source);
 
-            var heap = null;
+            var heap = {};
             var resolveConstructor = function () {
-                heap = new source.constructor();
+                if (source.constructor.hasOwnProperty("prototype")) {
+                    heap = new source.constructor();
+                } else {
+                    source.constructor.call(heap);
+                }
             };
 
             map.beforeCreate = (
