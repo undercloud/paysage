@@ -32,7 +32,7 @@
             "mixins",
             "components",
             "directives",
-            "filter",
+            "filters",
             "inheritAttrs"
         ],
         assign: function (map, prototype, isPrototype) {
